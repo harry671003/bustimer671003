@@ -39,3 +39,6 @@ from app.views import config
 
 # Add /admin/* views
 from app.views import admin
+
+# Add /bus/* views
+from app.views import bus

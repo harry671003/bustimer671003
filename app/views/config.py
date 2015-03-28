@@ -86,6 +86,19 @@ def setup_db():
 			connection=cm.db
 		)
 
+	# Create the stops table
+	try:
+		cm.db.describe_table('test')
+	except Exception, e:
+		users = Table.create('test', schema=[
+				HashKey('id'), # defaults to STRING data_type
+			], throughput={
+				'read': 1,
+				'write': 1,
+			},
+			connection=cm.db
+		)
+
 	return "Done!"
 
 @application.route(base_url + '/showdb', methods=['GET'])
