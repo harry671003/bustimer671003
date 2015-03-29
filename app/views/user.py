@@ -30,9 +30,12 @@ def register_device():
 			except ItemNotFound, e:
 				# uid doesnot exists
 				# Insert the device_id to table
+
+				# Generate ukey
+				ukey = gen_ukey()
 				user_table.put_item(data={
 					"uid": uid,
-					"ukey": gen_ukey()
+					"ukey": ukey
 				})
 				# Break from the loop after inserting the data
 				break;
