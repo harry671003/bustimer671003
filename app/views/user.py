@@ -1,9 +1,9 @@
 from app import application, cm
 from flask import request
-from flask.ext.login import LoginManager
-import json
+
+# Import helpers
 from lib.helpers import message as message_helper
-import os
+from lib.helpers.security import gen_uid, gen_ukey
 
 from boto.dynamodb2.fields import HashKey, RangeKey, GlobalAllIndex
 from boto.dynamodb2.table import Table
@@ -15,30 +15,28 @@ base_url = '/user'
 def login():
 	return message_helper.success()
 
-# Register a device to BusTimer
-# 
-@application.route(base_url + '/register_device', methods=['POST'])
+# Register a new device to BusTimer
+@application.route(base_url + '/register_device', methods=['POST', 'GET'])
 def register_device():
-	# Check for the device_id in POST request
-	device_id = request.form.get("device_id")
-	if device_id is None:
-		return message_helper.error("Please supply a device ID")
-	if len(device_id) != 10:
-		return message_helper.error("Device ID is not of sufficient length")
-	# Device ID validated. Add it to DB
-	# Retrieve the table
+	# Create a new u_id
+	uid = gen_uid()
 	try:
 		user_table = Table('users', connection=cm.db)
-		try:
-			# Check if already there is a device_id
-			is_existing_id = user_table.get_item(device_id=device_id)
-			return message_helper.error("Sorry: ID Already existing")
-		except ItemNotFound, e:
-			# The item not found
-			# Insert the device_id to table
-			user_table.put_item(data={
-				"device_id": device_id
-			})
+		while 1:
+			try:
+				# Check if the uid exists
+				is_existing_id = user_table.get_item(uid=uid)
+				# Looks like it exists. So try again
+			except ItemNotFound, e:
+				# uid doesnot exists
+				# Insert the device_id to table
+				user_table.put_item(data={
+					"uid": uid,
+					"ukey": gen_ukey()
+				})
+				# Break from the loop after inserting the data
+				break;
+
 	except Exception, e:
 		# If the application is in debug mode
 		if application.debug:

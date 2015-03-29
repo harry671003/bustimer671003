@@ -22,7 +22,7 @@ def setup_db():
 	except Exception, e:
 		# Users table doesn't exist. So create it
 		users = Table.create('users', schema=[
-				HashKey('device_id'), # defaults to STRING data_type
+				HashKey('uid'), # defaults to STRING data_type
 			], throughput={
 				'read': 1,
 				'write': 1,
@@ -98,6 +98,27 @@ def setup_db():
 			},
 			connection=cm.db
 		)
+
+	# Create the settings table
+	# This table contains all settings
+	try:
+		cm.db.describe_table('settings')
+	except Exception, e:
+		users = Table.create('settings', schema=[
+				HashKey('name'), # defaults to STRING data_type
+			], throughput={
+				'read': 1,
+				'write': 1,
+			},
+			connection=cm.db
+		)
+
+	# Initialize settings
+	# -------------------
+	# 1. user_auto_inc
+	settings = Table('settings', connection=cm.db)
+
+
 
 	return "Done!"
 
