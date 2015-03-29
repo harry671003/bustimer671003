@@ -43,4 +43,7 @@ def register_device():
 			return message_helper.error(str(e))
 		else:
 			return message_helper.error("Sorry, An error occured")
-	return message_helper.success()
+	return message_helper.success(data={
+		"uid": uid,
+		"ukey": ukey
+	})

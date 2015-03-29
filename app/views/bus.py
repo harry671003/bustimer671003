@@ -14,7 +14,7 @@ import json
 base_url = '/bus'
 
 # Route for adding a new bus
-@application.route(base_url  + '/add', methods=[POST])
+@application.route(base_url  + '/add', methods=['POST'])
 def add_new_bus():
 	try:
 		data = request.get_data()
