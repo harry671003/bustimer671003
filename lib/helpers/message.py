@@ -1,10 +1,10 @@
-import json
+from flask import jsonify
 def error(message):
 	data = {
 		"status": "error",
 		"message": message
 	}
-	return json.dumps(data)
+	return jsonify(data)
 
 # Return success json
 def success(data=None):
@@ -13,4 +13,4 @@ def success(data=None):
 	}
 	if data and isinstance(data, dict):
 		ret_obj["data"] = data
-	return json.dumps(data)
+	return jsonify(ret_obj)
