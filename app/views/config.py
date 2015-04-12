@@ -54,8 +54,8 @@ def setup_db():
 				'write': 1,
 			}, 
 			global_indexes= [
-				GlobalAllIndex('bus_id_index', parts=[
-					HashKey('bus_id'),
+				GlobalAllIndex('s_id_index', parts=[
+					HashKey('s_id'),
 				]),
 				GlobalAllIndex('stop_id_index', parts=[
 					HashKey('stop_id'),
@@ -69,18 +69,27 @@ def setup_db():
 		cm.db.describe_table('stops')
 	except Exception, e:
 		users = Table.create('stops', schema=[
-				HashKey('stop_id'), # defaults to STRING data_type
+				HashKey('stop_id', data_type="S"),
 			], throughput={
 				'read': 1,
 				'write': 1,
 			}, 
 			global_indexes= [
 				GlobalAllIndex('lat_lon_index', parts=[
-					HashKey('lat'),
-					RangeKey('lon')
+					HashKey('lat', data_type="N"),
+					RangeKey('lon', data_type="N"),
 				]),
 				GlobalAllIndex('stop_name_index', parts=[
-					HashKey('name'),
+					HashKey('name', data_type="S"),
+				]),
+				GlobalAllIndex('stop_level2_index', parts=[
+					HashKey('level_2', data_type="S"),
+				]),
+				GlobalAllIndex('stop_level1_index', parts=[
+					HashKey('level_1', data_type="S"),
+				]),
+				GlobalAllIndex('stop_country_index', parts=[
+					HashKey('country', data_type="S"),
 				]),
 			],
 			connection=cm.db
@@ -118,8 +127,6 @@ def setup_db():
 	# 1. user_auto_inc
 	settings = Table('settings', connection=cm.db)
 
-
-
 	return "Done!"
 
 @application.route(base_url + '/showdb', methods=['GET'])
@@ -130,4 +137,6 @@ def show_db():
 	for table in tables["TableNames"]:
 		# out += type(table)
 		table_data.append(cm.db.describe_table(table))
-	return render_template('describe_tables.html', table_data=table_data)
+	return message_helper.success({
+		"data": table_data
+	})

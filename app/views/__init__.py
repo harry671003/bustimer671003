@@ -42,3 +42,9 @@ from app.views import admin
 
 # Add /bus/* views
 from app.views import bus
+
+# Add /bus/* views
+from app.views import test
+
+# Add /bus/* views
+from app.views import search
