@@ -28,6 +28,14 @@ def generate_new_user_key():
 		generate_random_string(40) + str(uuid.uuid4())
 	).hexdigest()
 
+# Generate a new users ID
+# Generate a 128 bit stop_id
+def generate_stopid(stop_name):
+	print '[+] stop name: ' + str(stop_name)
+	return hashlib.sha1(
+		str(uuid.uuid4()) + generate_random_string(40) + stop_name
+	).hexdigest()
+
 gen_rand_str = generate_random_string
 gen_uid = generate_new_user_id
 gen_ukey = generate_new_user_key

@@ -158,3 +158,13 @@ def show_db():
 	return message_helper.success({
 		"data": table_data
 	})
+
+@application.route(base_url + '/deleteall', methods=['GET'])
+@login_required(1)
+def flushall():
+	cm.db.delete_table("stops")
+	cm.db.delete_table("stops_loc")
+	cm.db.delete_table("schedule")
+	return "Done!"
+
+

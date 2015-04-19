@@ -9,8 +9,11 @@ from boto.dynamodb2.fields import HashKey, RangeKey, GlobalAllIndex
 from boto.dynamodb2.table import Table
 from boto.dynamodb2.exceptions import ItemNotFound
 from lib.helpers.time import get_xhd_from_time, get_time_from_xhd, get_time_str
-from lib.helpers.math import Coords
+from lib.helpers.coords import Coords
 from lib.helpers.tables import tb_schedule
+
+from lib.helpers.map import Geocode
+import os
 
 base_url = '/test'
 
@@ -238,3 +241,19 @@ def get_schedule(schedule_id):
 		data={"data":data}
 	)
 
+@application.route(base_url + '/add_coords', methods=['GET'])
+def add_coords():
+	geocode = Geocode()
+	f = open(str(os.path.dirname(__file__)) + "/coords.txt", "r")
+	for line in f:
+		coords = line.strip('\n').split(",")
+		print coords
+		print str(geocode.get_place(lat=coords[0],lon=coords[1]))
+
+	return "Done"
+
+@application.route(base_url + '/check', methods=['GET'])
+def add_check():
+	geocode = Geocode()
+	print str(geocode.get_place(10.1454178,76.4261005))
+	return "Done"
