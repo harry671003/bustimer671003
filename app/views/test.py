@@ -64,42 +64,42 @@ def add_sample_schedules():
 
 
 			batch.put_item(data={
-				'id': '7',
+				'id': '1',
 				'sch_id': '1',
 				'stop_id': 'alpy',
 				'time': get_xhd_from_time(hour=12, minute=0),
 				'cnt': 5,
 			})
 			batch.put_item(data={
-				'id': '8',
+				'id': '2',
 				'sch_id': '1',
 				'stop_id': 'kykm',
 				'time': get_xhd_from_time(hour=12, minute=15),
 				'cnt': 5,
 			})
 			batch.put_item(data={
-				'id': '9',
+				'id': '3',
 				'sch_id': '1',
 				'stop_id': 'ochr',
 				'time': get_xhd_from_time(hour=12, minute=30),
 				'cnt': 5,
 			})
 			batch.put_item(data={
-				'id': '10',
+				'id': '4',
 				'sch_id': '1',
 				'stop_id': 'vlkv',
 				'time': get_xhd_from_time(hour=12, minute=45),
 				'cnt': 5,
 			})
 			batch.put_item(data={
-				'id': '11',
+				'id': '5',
 				'sch_id': '1',
 				'stop_id': 'kpy',
 				'time': get_xhd_from_time(hour=13, minute=0),
 				'cnt': 5,
 			})
 			batch.put_item(data={
-				'id': '12',
+				'id': '6',
 				'sch_id': '1',
 				'stop_id': 'klm',
 				'time': get_xhd_from_time(hour=13, minute=15),
