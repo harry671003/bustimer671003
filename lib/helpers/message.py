@@ -11,6 +11,6 @@ def success(data=None):
 	ret_obj = {
 		"status": "success"
 	}
-	if data and isinstance(data, dict):
+	if data and (isinstance(data, dict) or isinstance(data, list)):
 		ret_obj["data"] = data
 	return jsonify(ret_obj)

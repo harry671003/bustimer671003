@@ -45,17 +45,19 @@ def setup_db():
 	
 	# Create the bus-stops table
 	try:
-		cm.db.describe_table('bus_n_stops')
+		cm.db.delete_table('schedule')
+		cm.db.describe_table('schedule')
 	except Exception, e:
-		users = Table.create('bus_n_stops', schema=[
+		users = Table.create('schedule', schema=[
 				HashKey('id'), # defaults to STRING data_type
 			], throughput={
 				'read': 1,
 				'write': 1,
 			}, 
 			global_indexes= [
-				GlobalAllIndex('s_id_index', parts=[
-					HashKey('s_id'),
+				GlobalAllIndex('sch_id_index', parts=[
+					HashKey('sch_id'),
+					RangeKey('stop_id')
 				]),
 				GlobalAllIndex('stop_id_index', parts=[
 					HashKey('stop_id'),
@@ -68,19 +70,16 @@ def setup_db():
 	try:
 		cm.db.describe_table('stops')
 	except Exception, e:
-		users = Table.create('stops', schema=[
+		tb_stops = Table.create('stops', schema=[
 				HashKey('stop_id', data_type="S"),
 			], throughput={
 				'read': 1,
 				'write': 1,
 			}, 
 			global_indexes= [
-				GlobalAllIndex('lat_lon_index', parts=[
-					HashKey('lat', data_type="N"),
-					RangeKey('lon', data_type="N"),
-				]),
 				GlobalAllIndex('stop_name_index', parts=[
-					HashKey('name', data_type="S"),
+					HashKey('name_part', data_type="S"),
+					RangeKey('name', data_type="S"),
 				]),
 				GlobalAllIndex('stop_level2_index', parts=[
 					HashKey('level_2', data_type="S"),
@@ -95,7 +94,26 @@ def setup_db():
 			connection=cm.db
 		)
 
-	# Create the stops table
+	# Create the stops_loc table
+	try:
+		cm.db.describe_table('stops_loc')
+	except Exception, e:
+		tb_stops = Table.create('stops_loc', schema=[
+				HashKey('stop_id', data_type="S"),
+			], throughput={
+				'read': 1,
+				'write': 1,
+			}, 
+			global_indexes= [
+				GlobalAllIndex('lat_index', parts=[
+					HashKey('lat_part', data_type="S"),
+					RangeKey('lat', data_type="N"),
+				])
+			],
+			connection=cm.db
+		)
+
+	# Create the test table
 	try:
 		cm.db.describe_table('test')
 	except Exception, e:

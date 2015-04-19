@@ -13,6 +13,10 @@ def get_xhd_from_time(hour=0, minute=0, second=0):
 
 # convert xhd to normal time
 def get_time_from_xhd(xhd):
+	try:
+		xhd = int(xhd)
+	except:
+		return None
 	# Boundary check
 	if(not (xhd >= 0 and xhd < 3600 * 24)):
 		return None
