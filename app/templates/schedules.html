@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Schedules</title>
+  </head>
+  <body>
+  <table>
+  <tr>
+  	<th>id</th>
+  	<th>sch_id</th>
+  	<th>stop_id</th>
+  	<th>stop_name</th>
+  	<th>time</th>
+  	<th>num_contributors</th>
+  </tr>
+  {% for schedule in schedules %}
+  <tr>
+  	<td>{{ schedule.id}}</td>
+  	<td>{{ schedule.sch_id}}</td>
+  	<td>{{ schedule.stop_id}}</td>
+  	<td>{{ schedule.stop_name}}</td>
+  	<td>{{ schedule.time}}</td>
+  	<td>{{ schedule.num_contributors}}</td>
+  </tr>
+  {% endfor %}
+  </body>
+</html>

@@ -62,6 +62,10 @@ def setup_db():
 				GlobalAllIndex('stop_id_index', parts=[
 					HashKey('stop_id'),
 				]),
+				# GlobalAllIndex('time_index', parts=[
+				# 	HashKey('stop_id'),
+				# 	RangeKey('time', data_type="N")
+				# ]),
 			],
 			connection=cm.db
 		)
@@ -162,8 +166,8 @@ def show_db():
 @application.route(base_url + '/deleteall', methods=['GET'])
 @login_required(1)
 def flushall():
-	cm.db.delete_table("stops")
-	cm.db.delete_table("stops_loc")
+	# cm.db.delete_table("stops")
+	# cm.db.delete_table("stops_loc")
 	cm.db.delete_table("schedule")
 	return "Done!"
 

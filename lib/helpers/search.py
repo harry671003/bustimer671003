@@ -75,7 +75,7 @@ def get_stops_from_query(query):
 				"name": item["name"],
 				"level_2": item["level_2"],
 				"level_1": item["level_1"],
-				"country": item["country"],
+				"country": item["country"]
 			}
 		)
 		

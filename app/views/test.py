@@ -1,5 +1,5 @@
 from app import application, cm
-from flask import request
+from flask import request, render_template
 
 # Import helpers
 from lib.helpers import message as message_helper
@@ -14,6 +14,8 @@ from lib.helpers.tables import tb_schedule
 
 from lib.helpers.map import Geocode
 import os
+
+from app.models.stops import get_stop
 
 base_url = '/test'
 
@@ -222,24 +224,32 @@ def add_sample_stops():
 
 @application.route(base_url + '/schedule/<schedule_id>', methods=['GET'])
 def get_schedule(schedule_id):
-	# Get the table
-	tb_schedules = Table('bus_n_stops', connection=cm.db)
-	schedules = tb_schedules.query_2(
-		sch_id__eq=schedule_id,
-		index='sch_id_index'
-	)
+	if(schedule_id == "all"):
+		# Get all entries
+		schedules = tb_schedule.scan()
+	else:
+		# Get the schedles with sch_id
+		schedules = tb_schedule.query_2(
+			sch_id__eq=schedule_id,
+			index='sch_id_index'
+		)
 	data = []
+	schedules = list(schedules)
+	print schedules
 	for schedule in schedules:
 		time = get_time_from_xhd(schedule["time"])
-		time_str = get_time_str(time["hour"], time["minute"])
+		time_str = get_time_str(time["hour"], time["minute"], time["second"])
+		# Get the stop info
+		stop = get_stop(schedule["stop_id"])
 		data.append({
+			"id": schedule["id"],
 			"sch_id": schedule["sch_id"],
-			"stop": schedule["stop_id"],
-			"time": time_str
+			"stop_id": schedule["stop_id"],
+			"stop_name": stop["name"],
+			"time": time_str,
+			"num_contributors": schedule["num_contributors"]
 		})
-	return message_helper.success(
-		data={"data":data}
-	)
+	return render_template("schedules.html", schedules=data)
 
 @application.route(base_url + '/add_coords', methods=['GET'])
 def add_coords():
@@ -254,6 +264,39 @@ def add_coords():
 
 @application.route(base_url + '/check', methods=['GET'])
 def add_check():
-	geocode = Geocode()
-	print str(geocode.get_place(10.1454178,76.4261005))
+	# with tb_schedule.batch_write() as batch:
+	# 	batch.put_item(data={
+	# 		'id': '1',
+	# 		'sch_id': "1",
+	# 		'stop_id': 'alpy',
+	# 		'time': 1,
+	# 	})
+	# 	batch.put_item(data={
+	# 		'id': '2',
+	# 		'sch_id': "2",
+	# 		'stop_id': 'd030c5daf31c844401c44bfb7cc4ba90e082686e',
+	# 		'time': 30600,
+	# 	})
+	# # q = tb_schedule.query_2(
+	# # 	stop_id__eq='alpy',
+	# # 	time__eq__gt=0,
+	# # 	index='stop_id_index'
+	# # )
+	# # q = list(q)
+	# # print q
+
+	# schedule = tb_schedule.query_2(
+	# 	sch_id__eq="2",
+	# 	index='sch_id_index'
+	# # )
+	# # schedule = list(schedule)
+	# # print "[+]" + str(schedule)
+	# # stop = tb_schedule.get_item(id="s_id")
+	# x = tb_schedule.query_2(
+	# 	sch_id__eq='2',
+	# 	index='sch_id_index'
+	# )
+	# x = list(x)
+	# print x
+	print get_time_from_xhd(36090)
 	return "Done"

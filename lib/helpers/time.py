@@ -38,4 +38,4 @@ def get_time_from_xhd(xhd):
 	}
 
 def get_time_str(hour=0, minute=0, second=0):
-	return "%02d:%02d" % (hour, minute)
+	return "%02d:%02d:%02d" % (hour, minute, second)

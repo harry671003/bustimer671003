@@ -12,12 +12,14 @@ from boto.dynamodb2.exceptions import ItemNotFound
 from lib.helpers.coords import Coords
 from lib.helpers.tables import tb_stops, tb_stops_loc
 from lib.helpers.security import generate_stopid
+from lib.helpers.time import get_xhd_from_time
 
 class Geocode:
 	__earth_radius = 6371
 
 	def __init__(self):
 		self.email = "bussingtime@gmail.com"
+		self.default_threshold = get_xhd_from_time(minute=5)
 
 	# Get the necessary difference between lat and lon
 	# for a distance diff of d meters
@@ -222,6 +224,7 @@ class Geocode:
 			stop_data["level_1"] 	= gmap_result["level_1"].lower()
 			stop_data["level_2"] 	= gmap_result["level_2"].lower()
 			stop_data["country"] 	= gmap_result["country"].lower()
+			stop_data["threshold"]  = self.default_threshold
 
 			# insert to table
 			tb_stops.put_item(data=stop_data)
