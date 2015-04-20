@@ -10,7 +10,7 @@ from lib.helpers.search import get_stops_from_query, get_buses_between
 
 base_url = '/search'
 
-@application.route(base_url + '/', methods=['GET'])
+@application.route(base_url + '/', methods=['GET', 'POST'])
 def search():
 	# Get the arguments
 	stop_id_source = request.args.get('stop_id_source')
