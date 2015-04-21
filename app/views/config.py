@@ -173,10 +173,9 @@ def flush_sched():
 
 @application.route(base_url + '/flush_stops', methods=['GET'])
 @login_required(1)
-def flush_sched():
-	# cm.db.delete_table("stops")
-	# cm.db.delete_table("stops_loc")
+def flush_stops():
 	cm.db.delete_table("stops")
+	cm.db.delete_table("stops_loc")
 	return "Done!"
 
 
