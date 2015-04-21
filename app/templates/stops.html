@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Schedules</title>
+  </head>
+  <body>
+  <table>
+  <tr>
+  	<th>stop_id</th>
+  	<th>name</th>
+  	<th>level_2</th>
+  	<th>level_1</th>
+  	<th>country</th>
+  </tr>
+  {% for schedule in stops %}
+  <tr>
+  	<td>{{ schedule.id}}</td>
+  	<td>{{ schedule.name}}</td>
+  	<td>{{ schedule.level_2}}</td>
+  	<td>{{ schedule.level_1}}</td>
+  	<td>{{ schedule.country}}</td>
+  </tr>
+  {% endfor %}
+  </body>
+</html>

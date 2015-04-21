@@ -10,7 +10,7 @@ from boto.dynamodb2.table import Table
 from boto.dynamodb2.exceptions import ItemNotFound
 from lib.helpers.time import get_xhd_from_time, get_time_from_xhd, get_time_str
 from lib.helpers.coords import Coords
-from lib.helpers.tables import tb_schedule
+from lib.helpers.tables import tb_schedule, tb_stops
 
 from lib.helpers.map import Geocode
 import os
@@ -250,6 +250,23 @@ def get_schedule(schedule_id):
 			"num_contributors": schedule["num_contributors"]
 		})
 	return render_template("schedules.html", schedules=data)
+
+@application.route(base_url + '/stops', methods=['GET'])
+def get_stops():
+	# Get all stops
+	stops = tb_stops.scan()
+	data = []
+	stops = list(stops)
+	print stops
+	for stop in stops:
+		data.append({
+			"id": stop["stop_id"],
+			"name": stop["name"],
+			"level_1": stop["level_1"],
+			"level_2": stop["level_2"],
+			"country": stop["country"],
+		})
+	return render_template("stops.html", stops=data)
 
 @application.route(base_url + '/add_coords', methods=['GET'])
 def add_coords():
