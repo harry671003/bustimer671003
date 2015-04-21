@@ -9,7 +9,8 @@
   	<th>name</th>
   	<th>level_2</th>
   	<th>level_1</th>
-  	<th>country</th>
+    <th>country</th>
+  	<th>threshold</th>
   </tr>
   {% for schedule in stops %}
   <tr>
@@ -17,7 +18,8 @@
   	<td>{{ schedule.name}}</td>
   	<td>{{ schedule.level_2}}</td>
   	<td>{{ schedule.level_1}}</td>
-  	<td>{{ schedule.country}}</td>
+    <td>{{ schedule.country}}</td>
+  	<td>{{ schedule.threshold}}</td>
   </tr>
   {% endfor %}
   </body>

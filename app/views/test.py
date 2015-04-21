@@ -257,7 +257,6 @@ def get_stops():
 	stops = tb_stops.scan()
 	data = []
 	stops = list(stops)
-	print stops
 	for stop in stops:
 		data.append({
 			"id": stop["stop_id"],
@@ -265,6 +264,7 @@ def get_stops():
 			"level_1": stop["level_1"],
 			"level_2": stop["level_2"],
 			"country": stop["country"],
+			"threshold": stop["threshold"],
 		})
 	return render_template("stops.html", stops=data)
 
