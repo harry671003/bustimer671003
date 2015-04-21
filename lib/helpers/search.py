@@ -111,7 +111,6 @@ def get_buses_between(source_id, dest_id):
 			}
 		dict_time_less = True
 		schedule_list = dest_schedules
-
 	else:
 		# Convert dest_schedules to dict
 		for stop in dest_schedules:
@@ -121,8 +120,6 @@ def get_buses_between(source_id, dest_id):
 		dict_time_less = False
 		schedule_list = source_schedules
 
-	print schedule_dict
-	print schedule_list
 	timetable = []
 	for list_sch in schedule_list:
 		sch_id = list_sch["sch_id"]

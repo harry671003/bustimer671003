@@ -151,14 +151,16 @@ def setup_db():
 
 	return "Done!"
 
-@application.route(base_url + '/showdb', methods=['GET'])
+@application.route(base_url + '/showdb/<table_name>', methods=['GET'])
 @login_required(1)
-def show_db():
-	tables = cm.db.list_tables()
+def show_db(table_name):
 	table_data = []
-	for table in tables["TableNames"]:
-		# out += type(table)
-		table_data.append(cm.db.describe_table(table))
+	if table_name == "all_tables":
+		tables = cm.db.list_tables()
+		for table in tables["TableNames"]:
+			table_data.append(cm.db.describe_table(table))
+	else:
+		table_data.append(cm.db.describe_table(table_name))
 	return message_helper.success({
 		"data": table_data
 	})
