@@ -163,12 +163,21 @@ def show_db():
 		"data": table_data
 	})
 
-@application.route(base_url + '/deleteall', methods=['GET'])
+@application.route(base_url + '/flush_schedules', methods=['GET'])
 @login_required(1)
-def flushall():
+def flush_sched():
 	# cm.db.delete_table("stops")
 	# cm.db.delete_table("stops_loc")
 	cm.db.delete_table("schedule")
 	return "Done!"
+
+@application.route(base_url + '/flush_stops', methods=['GET'])
+@login_required(1)
+def flush_sched():
+	# cm.db.delete_table("stops")
+	# cm.db.delete_table("stops_loc")
+	cm.db.delete_table("stops")
+	return "Done!"
+
 
 
