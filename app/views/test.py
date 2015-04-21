@@ -241,6 +241,10 @@ def get_schedule(schedule_id):
 		time_str = get_time_str(time["hour"], time["minute"], time["second"])
 		# Get the stop info
 		stop = get_stop(schedule["stop_id"])
+		if not stop:
+			stop = {
+				"name": schedule["stop_id"]
+			}
 		data.append({
 			"id": schedule["id"],
 			"sch_id": schedule["sch_id"],
@@ -281,32 +285,21 @@ def add_coords():
 
 @application.route(base_url + '/check', methods=['GET'])
 def add_check():
-	# with tb_schedule.batch_write() as batch:
-	# 	batch.put_item(data={
-	# 		'id': '1',
-	# 		'sch_id': "1",
-	# 		'stop_id': 'alpy',
-	# 		'time': 1,
-	# 	})
-	# 	batch.put_item(data={
-	# 		'id': '2',
-	# 		'sch_id': "2",
-	# 		'stop_id': 'd030c5daf31c844401c44bfb7cc4ba90e082686e',
-	# 		'time': 30600,
-	# 	})
-	# # q = tb_schedule.query_2(
-	# # 	stop_id__eq='alpy',
-	# # 	time__eq__gt=0,
-	# # 	index='stop_id_index'
-	# # )
-	# # q = list(q)
-	# # print q
-
-	# schedule = tb_schedule.query_2(
-	# 	sch_id__eq="2",
-	# 	index='sch_id_index'
-	# # )
-	# # schedule = list(schedule)
+	with tb_schedule.batch_write() as batch:
+		batch.put_item(data={
+			'id': '1',
+			'sch_id': "1",
+			'stop_id': 'alpy',
+			'time': 1,
+			'num_contributors': 1
+		})
+		batch.put_item(data={
+			'id': '2',
+			'sch_id': "2",
+			'stop_id': 'alpy',
+			'time': 1,
+			'num_contributors': 1
+		})
 	# # print "[+]" + str(schedule)
 	# # stop = tb_schedule.get_item(id="s_id")
 	# x = tb_schedule.query_2(
@@ -315,5 +308,4 @@ def add_check():
 	# )
 	# x = list(x)
 	# print x
-	print get_time_from_xhd(36090)
 	return "Done"

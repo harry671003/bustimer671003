@@ -61,6 +61,7 @@ def setup_db():
 				]),
 				GlobalAllIndex('stop_id_index', parts=[
 					HashKey('stop_id'),
+					RangeKey('time', data_type="N")
 				]),
 				# GlobalAllIndex('time_index', parts=[
 				# 	HashKey('stop_id'),
@@ -176,8 +177,7 @@ def flush_sched():
 @application.route(base_url + '/flush_stops', methods=['GET'])
 @login_required(1)
 def flush_stops():
-	cm.db.delete_table("stops")
-	cm.db.delete_table("stops_loc")
+	
 	return "Done!"
 
 
